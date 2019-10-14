@@ -75,6 +75,14 @@ class Delft3D_FlexibleMesh:
         self.first_start = None
         self.directory = None
 
+        self.toolbar = self.iface.addToolBar(u'Delft3D_FlexibleMesh')
+        self.toolbar.setObjectName(u'Delft3D_FlexibleMesh')
+
+        self.dlg = Delft3D_FlexibleMeshDialog()
+        self.dlg.lineEdit.clear()
+        self.dlg.pushButton.clicked.connect(self._select_save_path)
+
+
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
         """Get the translation for a string using Qt translation API.
@@ -90,18 +98,17 @@ class Delft3D_FlexibleMesh:
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('Delft3D_FlexibleMesh', message)
 
-
     def add_action(
-        self,
-        icon_path,
-        text,
-        callback,
-        enabled_flag=True,
-        add_to_menu=True,
-        add_to_toolbar=True,
-        status_tip=None,
-        whats_this=None,
-        parent=None):
+            self,
+            icon_path,
+            text,
+            callback,
+            enabled_flag=True,
+            add_to_menu=True,
+            add_to_toolbar=True,
+            status_tip=None,
+            whats_this=None,
+            parent=None):
         """Add a toolbar icon to the toolbar.
 
         :param icon_path: Path to the icon for this action. Can be a resource
@@ -168,17 +175,13 @@ class Delft3D_FlexibleMesh:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-
-        self.toolbar = self.iface.addToolBar(u'Delft3D_FlexibleMesh')
-        self.toolbar.setObjectName(u'Delft3D_FlexibleMesh')
-
         # icon_path = ':/plugins/Delft3D_FlexibleMesh/icon.png'
         # self.add_action(
-            # icon_path,
-            # text=self.tr(u'Delft3D FM Toolbox'),
-            # callback=self.run,
-            # parent=self.iface.mainWindow())
-            
+        # icon_path,
+        # text=self.tr(u'Delft3D FM Toolbox'),
+        # callback=self.run,
+        # parent=self.iface.mainWindow())
+
         icon_path = ':/plugins/Delft3D_FlexibleMesh/icon.png'
         self.add_action(
             icon_path,
@@ -192,23 +195,15 @@ class Delft3D_FlexibleMesh:
             text='Open .pli/.pol/.xyz',
             callback=self.open_pli,
             parent=self.iface.mainWindow())
-            
-            
-
-        # will be set False in run()
-        # self.first_start = True
-        self.dlg = Delft3D_FlexibleMeshDialog()
-        self.dlg.lineEdit.clear()
-        self.dlg.pushButton.clicked.connect(self._select_save_path)
 
     def _select_save_path(self):
         # Get path of layer in combobox
-        selectedLayerIndex = self.dlg.comboBox.currentIndex()
+        selected_layer_index = self.dlg.comboBox.currentIndex()
         layers = self.iface.mapCanvas().layers()
-        selectedLayerPath = layers[selectedLayerIndex].source()
-        if os.path.isfile(selectedLayerPath):
-            selectedLayerFilename, ext = os.path.splitext(selectedLayerPath)
-            suggested_path = selectedLayerFilename + '.ldb'
+        selected_layer_path = layers[selected_layer_index].source()
+        if os.path.isfile(selected_layer_path):
+            selected_layer_filename, ext = os.path.splitext(selected_layer_path)
+            suggested_path = selected_layer_filename + '.ldb'
         else:
             suggested_path = self.directory
 
@@ -216,8 +211,6 @@ class Delft3D_FlexibleMesh:
         filename, _ = QFileDialog.getSaveFileName(self.dlg, "Select output file ",
                                                   suggested_path)
         self.dlg.lineEdit.setText(filename)
-
-
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -229,21 +222,20 @@ class Delft3D_FlexibleMesh:
         # remove the toolbar
         del self.toolbar
 
-
     def open_pli(self):
-        filepath, _ = QFileDialog.getOpenFileName(None, "Select pli-file ", self.directory, '*')  # .ldb,*.pol,*.pli,*.xyn,*.xyz')
+        filepath, _ = QFileDialog.getOpenFileName(None, "Select pli-file ", self.directory,
+                                                  '*')  # .ldb,*.pol,*.pli,*.xyn,*.xyz')
         if not os.path.isfile(filepath): return
 
         self.iface.messageBar().pushMessage("Open pli: <b>{}</b>.".format(filepath), Qgis.Info)
         self.directory, filename = os.path.split(filepath)
-        _,extension = os.path.splitext(filename)
-                
+        _, extension = os.path.splitext(filename)
+
         if extension == '.xyz' or extension == '.xyn':
             vl = dfm_pli.load_xyz(filepath)
         else:
             vl = dfm_pli.load_tekal(filepath)
 
-                
         # update layer's extent when new features have been added
         # because change of extent in provider is not propagated to the layer
         QgsProject.instance().addMapLayer(vl)
@@ -251,12 +243,12 @@ class Delft3D_FlexibleMesh:
 
         # Enable labels
         if not extension == 'name':
-            labelSettings = QgsPalLayerSettings()
+            label_settings = QgsPalLayerSettings()
             # label.readFromLayer(vl)
             # label.enabled = True
-            labelSettings.fieldName = 'name'
+            label_settings.fieldName = 'name'
             # label.writeToLayer(vl)
-            label = QgsVectorLayerSimpleLabeling(labelSettings)
+            label = QgsVectorLayerSimpleLabeling(label_settings)
 
             vl.setLabeling(label)
             vl.setLabelsEnabled(True)
@@ -296,7 +288,8 @@ class Delft3D_FlexibleMesh:
             self.iface.messageBar().pushMessage('Saving layer to xyz', Qgis.Info)
             dfm_pli.save_point(selected_layer, filename)
 
-        elif (selected_layer.wkbType() == QgsWkbTypes.LineString) or (selected_layer.wkbType() == QgsWkbTypes.LineString25D):
+        elif (selected_layer.wkbType() == QgsWkbTypes.LineString) or (
+                selected_layer.wkbType() == QgsWkbTypes.LineString25D):
             self.iface.messageBar().pushMessage('Saving layer to pli (polyline)', Qgis.Info)
             dfm_pli.save_polyline(selected_layer, filename)
 
@@ -316,4 +309,3 @@ class Delft3D_FlexibleMesh:
                                                 level=Qgis.Critical)
 
         self.iface.messageBar().pushMessage('Saving finished', Qgis.Info)
-
