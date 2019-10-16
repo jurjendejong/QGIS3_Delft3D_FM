@@ -23,8 +23,8 @@ version=0.1
  ***************************************************************************/
 """
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
-from qgis.PyQt.QtGui import QIcon, QFileDialog, QMessageBox
-from qgis.PyQt.QtWidgets import QAction
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction, QFileDialog, QMessageBox
 
 from qgis.core import Qgis, QgsVectorLayer, QgsFeature, QgsProject, QgsField, QgsGeometry, QgsPoint, \
     QgsPalLayerSettings, QgsVectorLayerSimpleLabeling, QgsWkbTypes
