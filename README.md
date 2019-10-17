@@ -6,6 +6,7 @@ Toolbar for QGIS 3 with several tools for Delft3D Flexible Mesh. Loading of outp
 - Save to filetypes:  points, polylines, polygons
 
 ![Example of toolbar](https://raw.githubusercontent.com/jurjendejong/QGIS3_Delft3D_FM/master/QGIS3_Toolbar_D3D_FM.png)
+
 _Figure: Visualisation of D3D-FM output-files using QGIS 3.8 core functionality, in combination with D3D-FM input files loaded by this plugin._
 
 ## How to install
