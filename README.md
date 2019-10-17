@@ -1,4 +1,4 @@
-# Delft3D FM Toolbar for 
+# Delft3D FM Toolbar for QGIS 3.8
 Toolbar for QGIS 3 with several tools for Delft3D Flexible Mesh. Loading of output files is supported starting with QGIS 3.8.  
 
 ## Features
