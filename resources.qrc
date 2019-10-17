@@ -1,5 +1,17 @@
 <RCC>
     <qresource prefix="/plugins/Delft3D_FlexibleMesh" >
-        <file>icon.png</file>
+        <file>icons/incoming.png</file>
+    </qresource>
+    <qresource prefix="/plugins/Delft3D_FlexibleMesh" >
+        <file>icons/folder-8.png</file>
+    </qresource>
+    <qresource prefix="/plugins/Delft3D_FlexibleMesh" >
+        <file>icons/layers.png</file>
+    </qresource>
+    <qresource prefix="/plugins/Delft3D_FlexibleMesh" >
+        <file>icons/reading.png</file>
+    </qresource>
+    <qresource prefix="/plugins/Delft3D_FlexibleMesh" >
+        <file>icons/save.png</file>
     </qresource>
 </RCC>

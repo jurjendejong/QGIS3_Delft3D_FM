@@ -182,14 +182,14 @@ class Delft3D_FlexibleMesh:
         # callback=self.run,
         # parent=self.iface.mainWindow())
 
-        icon_path = ':/plugins/Delft3D_FlexibleMesh/icon.png'
+        icon_path = ':/plugins/Delft3D_FlexibleMesh/icons/save.png'
         self.add_action(
             icon_path,
             text='Save to .pli/.pol/.xyz',
             callback=self.save_pli,
             parent=self.iface.mainWindow())
 
-        icon_path = ':/plugins/Delft3D_FlexibleMesh/icon.png'
+        icon_path = ':/plugins/Delft3D_FlexibleMesh/icons/incoming.png'
         self.add_action(
             icon_path,
             text='Open .pli/.pol/.xyz',
