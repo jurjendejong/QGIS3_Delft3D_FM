@@ -18,3 +18,4 @@ In QGIS go to plugins and enable the plugin Delft3D_FlexibleMesh
 ## Issues, ideas and help
 Please let me know any issues or ideas using the Github issuetracker or contact me on Jurjen.deJong@deltares.nl.
 
+* Free software: MIT license
