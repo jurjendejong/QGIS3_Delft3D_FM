@@ -5,15 +5,15 @@
 [general]
 name=Delft3D Flexible Mesh
 qgisMinimumVersion=3.0
-description=This plugin will provide basic tools for Flexible Mesh
-version=0.1 
+description=This plugin allows opening and saving of .xyz/.pli/.pol-files.
+version=0.2 
 author=Jurjen de Jong, Deltares
 email=jurjen.dejong@deltares.nl
 
-about=This plugin provides some functionality for visualising input and output files of Delft3D-FM by Deltares.
+about=This plugin allows opening and saving of .xyz/.pli/.pol-files. These are input files for models of the numerical modelling Delft3D Flexible Mesh by Deltares.
 
-tracker=http://github.com/jurjendejong/QGIS_D3D_FM
-repository=http://github.com/jurjendejong/QGIS_D3D_FM
+tracker=https://github.com/jurjendejong/QGIS3_Delft3D_FM
+repository=https://github.com/jurjendejong/QGIS3_Delft3D_FM
 # End of mandatory metadata
 
 # Recommended items:
@@ -25,11 +25,11 @@ hasProcessingProvider=no
 # Tags are comma separated with spaces allowed
 tags=python
 
-homepage=http://github.com/jurjendejong/QGIS_D3D_FM
+homepage=https://github.com/jurjendejong/QGIS3_Delft3D_FM
 category=Plugins
 icon=icon.png
 # experimental flag
-experimental=True
+experimental=False
 
 # deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
