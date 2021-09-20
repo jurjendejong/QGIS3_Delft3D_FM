@@ -79,7 +79,7 @@ class Delft3D_FlexibleMesh:
         self.toolbar.setObjectName(u'Delft3D_FlexibleMesh')
 
         self.dlg = Delft3D_FlexibleMeshDialog()
-        self.dlg.lineEdit.clear()
+        self.dlg.path_savefile.clear()
         self.dlg.pushButton.clicked.connect(self._select_save_path)
 
 
@@ -210,7 +210,7 @@ class Delft3D_FlexibleMesh:
         # Open and process dialog
         filename, _ = QFileDialog.getSaveFileName(self.dlg, "Select output file ",
                                                   suggested_path)
-        self.dlg.lineEdit.setText(filename)
+        self.dlg.path_savefile.setText(filename)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -279,7 +279,7 @@ class Delft3D_FlexibleMesh:
         if not result:
             return
 
-        filename = self.dlg.lineEdit.text()
+        filename = self.dlg.path_savefile.text()
 
         selected_layer_index = self.dlg.comboBox.currentIndex()
         selected_layer = layers[selected_layer_index]
@@ -298,7 +298,10 @@ class Delft3D_FlexibleMesh:
             dfm_pli.save_polygon(selected_layer, filename)
 
         elif selected_layer.wkbType() == QgsWkbTypes.MultiLineString:
-            self.iface.messageBar().pushMessage('Not yet implemented', Qgis.Warning)
+            # self.iface.messageBar().pushMessage('Not yet implemented', Qgis.Warning)
+            
+            self.iface.messageBar().pushMessage('Saving layer to pli (MultiLineString)', Qgis.Info)
+            dfm_pli.save_multipolyline(selected_layer, filename)
 
         elif selected_layer.wkbType() == QgsWkbTypes.MultiPolygon:
             self.iface.messageBar().pushMessage('Saving layer to pol (multipolygon)', Qgis.Info)

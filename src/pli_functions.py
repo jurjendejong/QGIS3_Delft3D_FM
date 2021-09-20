@@ -86,10 +86,14 @@ def save_polyline(layer, filename):
     output_file = open(filename, 'w')
     for iFeature, f in enumerate(layer.getFeatures()):
         geom_line = f.geometry().asPolyline()
+        
+        # Get feature name
         if len(f.attributes()) > 0 and f.attributes()[0]:
             feature_name = str(f.attributes()[0]).replace(' ', '_')
         else:
             feature_name = 'Feature_{}'.format(iFeature)
+            
+        # Write
         output_file.write(feature_name + '\n')
         output_file.write('{} {}\n'.format(len(geom_line), 2))  # Space as seperater in Deltashell
         for g in geom_line:
@@ -97,31 +101,91 @@ def save_polyline(layer, filename):
     output_file.close()
 
 
-def save_polygon(layer, filename):
+def save_multipolyline(layer, filename):
     output_file = open(filename, 'w')
-    feature_id = 0
-    for feature in layer.getFeatures():
-        fpol = feature.geometry().asPolygon()
-        for geomLine in fpol:
-            output_file.write('Feature{}\n'.format(feature_id))
+
+    for iFeature, f in enumerate(layer.getFeatures()):
+        geom_multiline = f.geometry().asMultiPolyline()
+        
+        # Get feature name
+        if len(f.attributes()) > 0 and f.attributes()[0]:
+            feature_name = str(f.attributes()[0]).replace(' ', '_')
+        else:
+            feature_name = 'Feature_{}'.format(iFeature)
+        
+        
+        for iGeom, geomLine in enumerate(geom_multiline):
+        
+            # Append feature name if multiple polygons
+            if iGeom == 0:
+                feature_geom_name = feature_name
+            else:
+                feature_geom_name = feature_name + '_' + str(iGeom)
+        
+        
+            output_file.write(feature_geom_name + '\n')
             output_file.write('{},{}\n'.format(len(geomLine), 2))
             for g in geomLine:
                 output_file.write('{:.3f},{:.3f}\n'.format(g.x(), g.y()))
-            feature_id += 1
+                
+    output_file.close()
+
+def save_polygon(layer, filename):
+    output_file = open(filename, 'w')
+
+    for iFeature, f in enumerate(layer.getFeatures()):
+        fpol = f.geometry().asPolygon()
+        
+        # Get feature name
+        if len(f.attributes()) > 0 and f.attributes()[0]:
+            feature_name = str(f.attributes()[0]).replace(' ', '_')
+        else:
+            feature_name = 'Feature_{}'.format(iFeature)
+        
+        
+        for iGeom, geomLine in enumerate(fpol):
+        
+            # Append feature name if multiple polygons
+            if iGeom == 0:
+                feature_geom_name = feature_name
+            else:
+                feature_geom_name = feature_name + '_' + str(iGeom)
+        
+        
+            output_file.write(feature_geom_name + '\n')
+            output_file.write('{},{}\n'.format(len(geomLine), 2))
+            for g in geomLine:
+                output_file.write('{:.3f},{:.3f}\n'.format(g.x(), g.y()))
+                
     output_file.close()
 
 
 def save_multipolygon(layer, filename):
     print('Processing to ldb (multi polygon)')
     output_file = open(filename, 'w')
-    feature_id = 0
-    for feature in layer.getFeatures():
-        fpols = feature.geometry().asMultiPolygon()
+    for iFeature, f in enumerate(layer.getFeatures()):
+        fpols = f.geometry().asMultiPolygon()
+        
+        
+        # Get feature name
+        if len(f.attributes()) > 0 and f.attributes()[0]:
+            feature_name = str(f.attributes()[0]).replace(' ', '_')
+        else:
+            feature_name = 'Feature_{}'.format(iFeature)
+        
+        iGeom = 0
         for fpol in fpols:
             for geomLine in fpol:
-                output_file.write('Feature{}\n'.format(feature_id))
+            
+                # Append feature name if multiple polygons
+                if iGeom == 0:
+                    feature_geom_name = feature_name
+                else:
+                    feature_geom_name = feature_name + '_' + str(iGeom)
+                    
+                output_file.write(feature_geom_name + '\n')
                 output_file.write('{},{}\n'.format(len(geomLine), 2))
                 for g in geomLine:
                     output_file.write('{:.3f},{:.3f}\n'.format(g.x(), g.y()))
-                feature_id += 1
+                iGeom += 1
     output_file.close()
