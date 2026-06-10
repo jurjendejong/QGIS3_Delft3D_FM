@@ -6,9 +6,9 @@
 name=Delft3D Flexible Mesh
 qgisMinimumVersion=3.0
 description=This plugin allows opening and saving of .xyz/.pli/.pol-files.
-version=1.0
-author=Jurjen de Jong, Deltares
-email=jurjen.dejong@deltares.nl
+version=1.1
+author=Jurjen de Jong
+email=jurjendejong@gmail.com
 
 about=This plugin allows opening and saving of .xyz/.pli/.pol-files. These are input files for models of the numerical modelling Delft3D Flexible Mesh by Deltares.
 
